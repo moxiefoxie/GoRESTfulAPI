@@ -1,19 +1,22 @@
 package main
 
 import (
+	"github.com/TharinduBalasooriya/goRestApi/controller"
+	"github.com/TharinduBalasooriya/goRestApi/logger"
+	_ "github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"os"
-
-	"github.com/TharinduBalasooriya/goRestApi/routes"
 )
 
 func main() {
+	var router = http.NewServeMux()
 
-	router := routes.MovieRoutes()
+	//Home Toute
 
-	http.Handle("/api", router)
+	//Other Routes
+	router.HandleFunc("/api/movies", controller.GetAllMovies)
 
 	log.Println("Listening...")
-	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), router))
+	log.Fatal(http.ListenAndServe(":8081", logger.LogRequestHandler(router)))
+
 }
