@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+//This is a basic logger. This is not currently being used.
+
 func LogRequestHandler(h http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		ri := &HTTPReqInfo{
