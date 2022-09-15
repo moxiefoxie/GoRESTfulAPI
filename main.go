@@ -1,22 +1,22 @@
 package main
 
 import (
-	"github.com/TharinduBalasooriya/goRestApi/controller"
-	"github.com/TharinduBalasooriya/goRestApi/logger"
-	_ "github.com/gorilla/mux"
-	"log"
 	"net/http"
+
+	"github.com/brpaz/echozap"
+	"github.com/labstack/echo/v4"
+	"go.uber.org/zap"
 )
 
 func main() {
-	var router = http.NewServeMux()
+	e := echo.New()
 
-	//Home Toute
+	zapLogger, _ := zap.NewProduction()
 
-	//Other Routes
-	router.HandleFunc("/api/movies", controller.GetAllMovies)
+	e.Use(echozap.ZapLogger(zapLogger))
 
-	log.Println("Listening...")
-	log.Fatal(http.ListenAndServe(":8081", logger.LogRequestHandler(router)))
-
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+	e.Logger.Fatal(e.Start(":1323"))
 }
